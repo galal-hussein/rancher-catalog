@@ -203,6 +203,10 @@ controller-manager:
         - --kubeconfig=/etc/kubernetes/ssl/kubeconfig
         - --root-ca-file=/etc/kubernetes/ssl/ca.pem
         - --service-account-private-key-file=/etc/kubernetes/ssl/key.pem
+        {{- if eq .Values.CLOUD_PROVIDER "gce" }}
+        - --allocate-node-cidrs=true
+        - --cluster-cidr=10.42.0.0/16
+        {{- end }}
     image: rancher/k8s:v1.6.2-rancher3-3
     labels:
         {{- if eq .Values.CONSTRAINT_TYPE "required" }}
