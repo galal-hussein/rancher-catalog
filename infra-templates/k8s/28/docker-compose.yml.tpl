@@ -227,7 +227,7 @@ controller-manager:
     links:
         - kubernetes
 
-rancher-kubernetes-agent:
+rancher-k8s-agent:
     labels:
         {{- if eq .Values.CONSTRAINT_TYPE "required" }}
         io.rancher.scheduler.affinity:host_label: orchestration=true
