@@ -120,7 +120,7 @@ etcd:
             quorum: 2
         strategy: recreateOnQuorum
 
-rancher-kubernetes-agent:
+rancher-k8s-agent:
     health_check:
         request_line: GET /healthcheck HTTP/1.0
         port: 10240
