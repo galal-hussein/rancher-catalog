@@ -24,3 +24,7 @@ If you want to separate the planes for resiliency by labeling your hosts to sepa
 ### KubeDNS
 
 KubeDNS is enabled for name resolution as described in the [Kubernetes DNS docs](http://kubernetes.io/docs/admin/dns/). The DNS service IP address is `10.43.0.10`.
+
+### Audit Logs
+
+Audit logs can be enabled through a simple option when deploying kubernetes, it will redirect all the Audit logs to the standard output for the kubernetes api container.

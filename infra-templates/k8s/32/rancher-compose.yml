@@ -58,6 +58,12 @@
     required: false
     default: "gcr.io/google_containers/pause-amd64:3.0"
     type: string
+  - variable: AUDIT_LOGS
+    description: Enable Audit logs to stdout for the kube-apiserver
+    label: Audit Logs
+    required: false
+    default: false
+    type: boolean
   - variable: INFLUXDB_HOST_PATH
     label: InfluxDB Host Path
     description: "Write Heapster metrics to an absolute path on the host. This may be network-attached storage."
