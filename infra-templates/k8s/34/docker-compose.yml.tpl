@@ -18,7 +18,7 @@ services:
     - --register-node=true
     - --cloud-provider=${CLOUD_PROVIDER}
     - --healthz-bind-address=0.0.0.0
-    - --cluster-dns=10.43.0.10
+    - --cluster-dns=${DNS_CLUSTER_IP}
     - --cluster-domain=cluster.local
     - --network-plugin=cni
     - --cni-conf-dir=/etc/cni/managed.d
@@ -65,7 +65,7 @@ services:
     - --register-node=true
     - --cloud-provider=${CLOUD_PROVIDER}
     - --healthz-bind-address=0.0.0.0
-    - --cluster-dns=10.43.0.10
+    - --cluster-dns=${DNS_CLUSTER_IP}
     - --cluster-domain=cluster.local
     - --network-plugin=cni
     - --cni-conf-dir=/etc/cni/managed.d
@@ -129,7 +129,7 @@ services:
     command:
     - kube-apiserver
     - --storage-backend=etcd3
-    - --service-cluster-ip-range=10.43.0.0/16
+    - --service-cluster-ip-range=${SERVICE_CLUSTER_CIDR}
     - --etcd-servers=http://etcd.kubernetes.rancher.internal:2379
     - --insecure-bind-address=0.0.0.0
     - --insecure-port=0
@@ -311,6 +311,7 @@ services:
       REGISTRY: ${REGISTRY}
       INFLUXDB_HOST_PATH: ${INFLUXDB_HOST_PATH}
       DNS_REPLICAS: ${DNS_REPLICAS}
+      DNS_CLUSTER_IP: ${DNS_CLUSTER_IP}
     command:
     - addons-update.sh
     links:
