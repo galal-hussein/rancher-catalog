@@ -69,7 +69,7 @@ catalog:
     type: boolean
   - variable: SERVICE_CLUSTER_CIDR
     label: Service Cluster IP CIDR
-    description: A CIDR notation IP range from which to assign service cluster IPs. This must not overlap with any IP ranges assigned to ipsec cidr (10.42.0.0/16).
+    description: A CIDR notation IP range from which to assign service cluster IPs. This must not overlap with any IP ranges assigned to the cluster pod IP CIDR (10.42.0.0/16).
     required: true
     default: "10.43.0.0/16"
     type: string
@@ -81,7 +81,7 @@ catalog:
     type: string
   - variable: KUBEAPI_CLUSTER_IP
     label: KubeAPI cluster IP for TLS certificate
-    description: This is the IP address that will be added as a SAN to the TLS certificate for kubernetes api, this must matches the IP of the kubernetes master service.
+    description: This is the IP address that will be added as a SAN to the TLS certificate for kubernetes api, this must matches the IP of the kubernetes master service which is the first IP of the Service Cluster IP CIDR.
     required: true
     default: "10.43.0.1"
     type: string
