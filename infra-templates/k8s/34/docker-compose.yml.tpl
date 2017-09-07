@@ -299,7 +299,7 @@ services:
 
   {{- if eq .Values.ENABLE_ADDONS "true" }}
   addon-starter:
-    image: rancher/k8s:v1.7.4-rancher2
+    image: husseingalal/k8s:dev
     labels:
       {{- if eq .Values.CONSTRAINT_TYPE "required" }}
       io.rancher.scheduler.affinity:host_label: orchestration=true
