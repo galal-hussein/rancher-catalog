@@ -29,16 +29,16 @@ kubelet:
         {{- end }}
     image: rancher/k8s:v1.8.0-beta.1-rancher2
     volumes:
-        - /run:/run
-        - /var/run:/var/run
-        - /sys:/sys:ro
-        - /var/lib/docker:/var/lib/docker
+        - /run:/run:rprivate
+        - /var/run:/var/run:rprivate
+        - /sys:/sys:ro,rprivate
+        - /var/lib/docker:/var/lib/docker:rprivate
         - /var/lib/kubelet:/var/lib/kubelet:shared
-        - /var/log/containers:/var/log/containers
-        - /var/log/pods:/var/log/pods
+        - /var/log/containers:/var/log/containers:rprivate
+        - /var/log/pods:/var/log/pods:rprivate
         - rancher-cni-driver:/etc/cni:ro
         - rancher-cni-driver:/opt/cni:ro
-        - /dev:/host/dev
+        - /dev:/host/dev:rprivate
     net: host
     pid: host
     ipc: host
@@ -76,16 +76,16 @@ kubelet-unschedulable:
         {{- end }}
     image: rancher/k8s:v1.8.0-beta.1-rancher2
     volumes:
-        - /run:/run
-        - /var/run:/var/run
-        - /sys:/sys:ro
-        - /var/lib/docker:/var/lib/docker
+        - /run:/run:rprivate
+        - /var/run:/var/run:rprivate
+        - /sys:/sys:ro,rprivate
+        - /var/lib/docker:/var/lib/docker:rprivate
         - /var/lib/kubelet:/var/lib/kubelet:shared
-        - /var/log/containers:/var/log/containers
-        - /var/log/pods:/var/log/pods
+        - /var/log/containers:/var/log/containers:rprivate
+        - /var/log/pods:/var/log/pods:rprivate
         - rancher-cni-driver:/etc/cni:ro
         - rancher-cni-driver:/opt/cni:ro
-        - /dev:/host/dev
+        - /dev:/host/dev:rprivate
     net: host
     pid: host
     ipc: host
