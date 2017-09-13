@@ -33,7 +33,7 @@ kubelet:
         - /var/run:/var/run:rprivate
         - /sys:/sys:ro,rprivate
         - /var/lib/docker:/var/lib/docker:rprivate
-        - /var/lib/kubelet:/var/lib/kubelet:shared
+        - /opt/kubelet:/var/lib/kubelet:shared
         - /var/log/containers:/var/log/containers:rprivate
         - /var/log/pods:/var/log/pods:rprivate
         - rancher-cni-driver:/etc/cni:ro
@@ -80,7 +80,7 @@ kubelet-unschedulable:
         - /var/run:/var/run:rprivate
         - /sys:/sys:ro,rprivate
         - /var/lib/docker:/var/lib/docker:rprivate
-        - /var/lib/kubelet:/var/lib/kubelet:shared
+        - /opt/kubelet:/var/lib/kubelet:shared
         - /var/log/containers:/var/log/containers:rprivate
         - /var/log/pods:/var/log/pods:rprivate
         - rancher-cni-driver:/etc/cni:ro
