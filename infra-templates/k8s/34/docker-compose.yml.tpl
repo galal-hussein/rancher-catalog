@@ -325,7 +325,7 @@ services:
       reinitializing_timeout: 60000
   {{- end }}
 
-{{- if ne .Values.ETCD_VOLUME_DRIVER "local" }}
+{{- if eq .Values.ETCD_VOLUME_DRIVER "local" }}
   etcd:
     # IMPORTANT!!!! DO NOT CHANGE VERSION ON UPGRADE
     image: rancher/etcd:holder
