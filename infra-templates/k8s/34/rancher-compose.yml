@@ -158,6 +158,10 @@ services:
 
   etcd:
     retain_ip: true
+  member:
+    retain_ip: true
+  etcd-backup:
+    retain_ip: true
 
   rancher-kubernetes-agent:
     health_check:
