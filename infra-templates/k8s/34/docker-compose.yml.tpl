@@ -455,11 +455,19 @@ services:
   {{- end }}
 volumes:
   etcd-data:
-      driver: rancher-nfs
+      driver: ${ETCD_VOLUME_DRIVER}
       per_container: true
+      {{- if eq .Values.ETCD_VOLUME_DRIVER "local" }}
+      driver_opts:
+        size: ${ETCD_DATA_VOLUME_SIZE}
+      {{- end }}
   {{- if eq .Values.ENABLE_BACKUPS "true" }}
   etcd-backup:
-    driver: rancher-nfs
+    driver: ${ETCD_VOLUME_DRIVER}
     per_container: true
+    {{- if eq .Values.ETCD_VOLUME_DRIVER "local" }}
+    driver_opts:
+      size: ${ETCD_BKP_VOLUME_SIZE}
+    {{- end }}
   {{- end }}
 {{- end }}
