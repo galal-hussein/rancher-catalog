@@ -457,7 +457,7 @@ volumes:
   etcd-data:
       driver: ${ETCD_VOLUME_DRIVER}
       per_container: true
-      {{- if eq .Values.ETCD_VOLUME_DRIVER "local" }}
+      {{- if eq .Values.ETCD_VOLUME_DRIVER "rancher-ebs" }}
       driver_opts:
         size: ${ETCD_DATA_VOLUME_SIZE}
       {{- end }}
@@ -465,7 +465,7 @@ volumes:
   etcd-backup:
     driver: ${ETCD_VOLUME_DRIVER}
     per_container: true
-    {{- if eq .Values.ETCD_VOLUME_DRIVER "local" }}
+    {{- if eq .Values.ETCD_VOLUME_DRIVER "rancher-ebs" }}
     driver_opts:
       size: ${ETCD_BKP_VOLUME_SIZE}
     {{- end }}
