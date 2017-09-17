@@ -325,6 +325,7 @@ services:
       reinitializing_timeout: 60000
   {{- end }}
 
+{{- if ne .Values.ETCD_VOLUME_DRIVER "local" }}
   etcd:
     # IMPORTANT!!!! DO NOT CHANGE VERSION ON UPGRADE
     image: rancher/etcd:holder
@@ -385,3 +386,80 @@ services:
     links:
     - etcd
   {{- end }}
+{{- else }}
+  etcd:
+    # IMPORTANT!!!! DO NOT CHANGE VERSION ON UPGRADE
+    image: rancher/etcd:holder
+    command: sh -c "echo Refer to sidekick for logs; mkfifo f; exec cat f"
+    volumes:
+    - etcd-data:/data:z
+    {{- if ne .Values.RESTORE_BACKUP "" }}
+    - etcd-backup:/backup:z
+    {{- end }}
+    labels:
+      {{- if eq .Values.CONSTRAINT_TYPE "required" }}
+      io.rancher.scheduler.affinity:host_label: etcd=true
+      {{- end }}
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      {{- if eq .Values.ENABLE_BACKUPS "true" }}
+      io.rancher.sidekicks: member,etcd-backup
+      {{- else }}
+      io.rancher.sidekicks: member
+      {{- end }}
+    scale_policy:
+      increment: 1
+      max: 3
+      min: 1
+
+  member:
+    image: rancher/etcd:v3.0.17-3
+    environment:
+      RANCHER_DEBUG: 'true'
+      ETCD_HEARTBEAT_INTERVAL: '${ETCD_HEARTBEAT_INTERVAL}'
+      ETCD_ELECTION_TIMEOUT: '${ETCD_ELECTION_TIMEOUT}'
+    network_mode: container:etcd
+    volumes_from:
+    - etcd
+    health_check:
+      port: 2378
+      request_line: GET /health HTTP/1.0
+      interval: 5000
+      response_timeout: 3000
+      unhealthy_threshold: 3
+      healthy_threshold: 2
+      initializing_timeout: 120000
+      reinitializing_timeout: 120000
+      recreate_on_quorum_strategy_config:
+        quorum: 2
+      strategy: recreateOnQuorum
+
+  {{- if eq .Values.ENABLE_BACKUPS "true" }}
+  etcd-backup:
+    image: rancher/etcd:v3.0.17-3
+    entrypoint: /opt/rancher/etcdwrapper
+    command:
+    - rolling-backup
+    - --creation=${BACKUP_CREATION}
+    - --retention=${BACKUP_RETENTION}
+    labels:
+      {{- if eq .Values.CONSTRAINT_TYPE "required" }}
+      io.rancher.scheduler.affinity:host_label: etcd=true
+      {{- end }}
+      io.rancher.scheduler.global: "true"
+    environment:
+      RANCHER_DEBUG: 'true'
+    volumes_from:
+    - etcd
+    links:
+    - etcd
+  {{- end }}
+volumes:
+  etcd-data:
+      driver: rancher-nfs
+      per_container: true
+  {{- if eq .Values.ENABLE_BACKUPS "true" }}
+  etcd-backup:
+    driver: rancher-nfs
+    per_container: true
+  {{- end }}
+{{- end }}
