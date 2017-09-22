@@ -23,6 +23,13 @@
     options:
      - rancher
      - aws
+     - gce
+  - variable: K8S_IMAGE
+    description: k8s_image
+    label: k8s image
+    required: true
+    default: "rancher/k8s:v1.8.0-beta.1-rancher4"
+    type: string
   - variable: RBAC
     description: Enable Kubernetes role-based access control with integrated Rancher authentication.
     label: Kubernetes RBAC
