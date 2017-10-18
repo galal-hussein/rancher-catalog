@@ -1,7 +1,7 @@
 version: '2'
 
 {{- $k8sImage:="rancher/k8s:v1.8.1-rancher1" }}
-{{- $etcdImage:="rancher/etcd:v3.2.9-1" }}
+{{- $etcdImage:="husseingalal/etcd:v3.2.9-1" }}
 {{- $kubectldImage:="rancher/kubectld:v0.8.5" }}
 {{- $etcHostUpdaterImage:="rancher/etc-host-updater:v0.0.3" }}
 {{- $k8sAgentImage:="rancher/kubernetes-agent:v0.6.6" }}
