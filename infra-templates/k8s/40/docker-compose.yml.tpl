@@ -32,6 +32,8 @@ kubelet:
         - --cluster-domain=cluster.local
         - --network-plugin=cni
         - --cni-conf-dir=/etc/cni/managed.d
+        - --anonymous-auth=false
+        - --client-ca-file=/etc/kubernetes/ssl/ca.pem
         {{- if and (ne .Values.REGISTRY "") (ne .Values.POD_INFRA_CONTAINER_IMAGE "") }}
         - --pod-infra-container-image=${REGISTRY}/${POD_INFRA_CONTAINER_IMAGE}
         {{- else if (ne .Values.POD_INFRA_CONTAINER_IMAGE "") }}
@@ -90,6 +92,8 @@ kubelet-unschedulable:
         {{- if eq .Values.CLOUD_PROVIDER "azure" }}
         - --cloud-config=/etc/kubernetes/cloud-provider-config
         {{- end }}
+        - --anonymous-auth=false
+        - --client-ca-file=/etc/kubernetes/ssl/ca.pem
         - --healthz-bind-address=0.0.0.0
         - --fail-swap-on=${FAIL_ON_SWAP}
         - --cluster-dns=${DNS_CLUSTER_IP}
@@ -214,6 +218,8 @@ kubernetes:
         - --client-ca-file=/etc/kubernetes/ssl/ca.pem
         - --tls-cert-file=/etc/kubernetes/ssl/cert.pem
         - --tls-private-key-file=/etc/kubernetes/ssl/key.pem
+        - --kubelet-client-certificate=/etc/kubernetes/ssl/cert.pem
+        - --kubelet-client-key=/etc/kubernetes/ssl/key.pem
         - --runtime-config=batch/v2alpha1
         - --anonymous-auth=false
         - --authentication-token-webhook-config-file=/etc/kubernetes/authconfig
